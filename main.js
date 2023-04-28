@@ -10,12 +10,16 @@ formularioCalculadora.addEventListener('submit', (evento) => {
 function calcularCalorias() {
     aparecerResultado();
 
+    const tipodocumento = document.querySelector('#tipoDocumento');
+    const numeroDocumento = document.querySelector('#numeroDocumento');
+    const nombre = document.querySelector('#nombre');
     const edad = document.querySelector('#edad');
     const peso = document.querySelector('#peso');
     const altura = document.querySelector('#altura');
     const genero = document.querySelector('input[name="genero"]:checked');
     const actividad = document.querySelector('#actividad');
     // const totalCalorias = document.querySelector('#total-calorias');
+    console.log(numeroDocumento.value.length);
 
     const multiplicadorTMB = {
         peso: 10,
@@ -28,6 +32,9 @@ function calcularCalorias() {
         return;
     } else if (edad.value < 15 || edad.value > 80) {
         mostrarMensajeDeError('La edad ingresada no es permitida');
+        return;
+    }else if(numeroDocumento.value.length < 8 || numeroDocumento.value.length > 14 ){
+        mostrarMensajeDeError('Numero de documento no permitido');
         return;
     }
     
