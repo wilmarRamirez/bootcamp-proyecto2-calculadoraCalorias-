@@ -18,9 +18,7 @@ function calcularCalorias() {
     const altura = document.querySelector('#altura');
     const genero = document.querySelector('input[name="genero"]:checked');
     const actividad = document.querySelector('#actividad');
-    // const totalCalorias = document.querySelector('#total-calorias');
-    let sexo = "";
-    console.log(genero.id);
+    
 
     const multiplicadorTMB = {
         peso: 10,
@@ -38,7 +36,19 @@ function calcularCalorias() {
         mostrarMensajeDeError('Numero de documento no permitido');
         return;
     }
-    
+
+    //condicional para el grupo poblacional
+    let grupoPoblacional = "";
+
+    if(edad.value >= 15 && edad.value <= 29){
+        grupoPoblacional = "jovenes";
+    }else if(edad.value >= 30 && edad.value <= 59){
+        grupoPoblacional = "adultos";
+    }else if(edad.value >= 60){
+        grupoPoblacional = "adultos mayores";
+    }
+
+    //calcular calorias
     let calculoCalorias;
     if (genero.id === 'masculino') {
         //Formula hombres: valor actividad x (10 x peso en kg) + (6,25 × altura en cm) - (5 × edad en años) + 5
@@ -52,10 +62,7 @@ function calcularCalorias() {
                                              (multiplicadorTMB.edad * edad.value)) - 161;
     }
     
-    /*"El paciente (nombre del paciente) identificado con (tipo de documento)
-        NO.(número de documento), requiere un total de (cantidad calorías) kcal
-        para el sostenimiento de su TBM"*/
-    
+    // mostrar mensajes
     resultado.innerHTML = `
         <div class=" card-body d-flex flex-column justify-content-center align-items-center h-100" id="calculo">
             <h5 class="card-title h2">Calorías requeridas</h5>
@@ -63,15 +70,20 @@ function calcularCalorias() {
                 <P class="bg-white form-control text-center text-dark fs-2">El paciente ${nombre.value} identificado con ${tipodocumento.value}
                 NO.${numeroDocumento.value}, requiere un total de <span class="fs-1"> ${Math.floor(calculoCalorias)} kcal </span>
                 para el sostenimiento de su TBM</P>
+                <p class="bg-white form-control text-center text-dark fs-2">perteneces al grupo poblacional de ${grupoPoblacional}</p>
             </div>
         </div>
     `
      // Volver a limpiar variables
+    tipodocumento.value = null;
+    numeroDocumento.value = null;
+    nombre.value = null;
     peso.value = null;
     altura.value = null;
     edad.value = null;
     actividad.value = null;
-    sexo = null;
+    genero.id = null;
+    
 }
 
 function mostrarMensajeDeError(msg) {
